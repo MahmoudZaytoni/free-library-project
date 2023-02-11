@@ -12,8 +12,6 @@ def create_app():
   # Add Database
   app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
   db.init_app(app)
-  with app.app_context():
-    db.create_all()
 
   from .views import views
   from .auth import auth
@@ -21,6 +19,8 @@ def create_app():
   app.register_blueprint(views, url_prefix ='/')
   app.register_blueprint(auth, url_prefix='/')
 
+  with app.app_context():
+    db.create_all()
   # Create Custom Error Pages
 
   # - Invalid Url 
