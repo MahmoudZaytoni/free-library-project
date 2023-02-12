@@ -1,0 +1,26 @@
+{% extends 'admin.html' %}
+
+{% block data %}
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Book Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <th scope="row">
+        {{book.id}}
+      </th>
+      <td scope="row">
+      <a href="{{url_for('admin.changebook', id=book.id)}}">
+          {{book.title}}
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock data %}

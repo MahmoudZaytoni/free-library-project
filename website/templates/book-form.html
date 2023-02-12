@@ -1,0 +1,69 @@
+{% extends 'admin.html' %}
+
+{% block data %}
+<h1>{{operation}}</h1>
+<div class="content-main">
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <div class="module d-flex flex-column">
+      <div class="row align-items-center">
+        <div class="col-3">
+          {{form.title.label(class="form-label")}}
+        </div>
+        <div class="col-4">
+          {{form.title(class="form-control")}}
+        </div>
+      </div> 
+      <div class="row align-items-center">
+        <div class="col-3">
+          {{form.author.label(class="form-label")}}
+        </div>
+        <div class="col-4">
+          {{form.author(class="form-control")}}
+        </div>
+      </div> 
+      <div class="row align-items-center">
+        <div class="col-3">
+          {{form.cover.label(class="form-label")}}
+        </div>
+        <div class="col-5">
+          {% if form.cover.data %}
+          <p class="url">
+            Currently:
+            <a href="{{url_for('static', filename=form.cover.data)}}">{{url_for('static', filename=form.cover.data)}}</a> 
+          </p>
+          {% endif %}
+          {{form.cover(class="form-control")}}
+        </div>
+      </div> 
+      <div class="row align-items-center">
+        <div class="col-3">
+          {{form.book.label(class="form-label")}}
+        </div>
+        <div class="col-5">
+          <p class="url">
+            {% if form.book.data %}
+            Currently:
+            <a href="{{url_for('static', filename=form.book.data)}}">{{url_for('static', filename=form.book.data)}}</a> 
+            {% endif %}
+          </p>
+          {{form.book(class="form-control")}}
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-3">
+          {{form.desc.label(class="form-label")}}
+        </div>
+        <div class="col-8">
+          {{form.desc(class="form-control")}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          {{ form.submit(class="btn btn-primary mt-2") }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock%}
