@@ -1,8 +1,8 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, request, send_file
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from .forms import BookForm
+from .forms import BookForm, BookFormUpdate
 from . import db, UPLOAD_FOLDER
 from .models import Book
 
@@ -38,18 +38,50 @@ def addbook():
 
 @admin.route('/book/<int:id>/change', methods=["GET", "POST"])
 def changebook(id):
+  form = BookFormUpdate()
+  book = Book.query.get_or_404(id)
+  upload_path = "uploads/"
+
   if request.method == "GET":
-    book = db.session.query(Book).filter(Book.id==id).first()
-    form = BookForm()
-    down_path = "uploads/books/"
     form.title.data = book.title
     form.author.data = book.author
-    form.cover.data = down_path + book.cover
-    form.book.data = down_path + book.file_name
+    form.cover.data = upload_path + "covers/" + book.cover
+    form.book.data = upload_path + "books/" + book.file_name
     form.desc.data = book.desc
     return render_template("book-form.html", user=current_user, form=form, operation="Change Book")
+  else:
+    book.title = form.title.data
+    book.author = form.author.data
+    book.desc = form.desc.data
+    cover_filename = secure_filename(form.cover.data.filename)
+    book_filename = secure_filename(form.book.data.filename)
+
+    if cover_filename != "":
+      book.cover = cover_filename
+      form.cover.data.save(os.path.join(UPLOAD_FOLDER + '/covers', cover_filename))
+    
+    if book_filename != "":      
+      book.file_name = book_filename
+      form.book.data.save(os.path.join(UPLOAD_FOLDER + '/books', book_filename))
+    
+    try:
+      db.session.commit()
+      flash('Book Changed Successfuly')
+    except:
+      flash('Error',category='error')
+    
+  return redirect(url_for('admin.readbooks'))
+
 
 
 @admin.route('/book/<int:id>/delete')
-def delete():
-  pass
+def deletebook(id):
+  book_to_delete = Book.query.get_or_404(id)
+
+  try:
+    db.session.delete(book_to_delete)
+    db.session.commit()
+  except:
+    flash("Book Deleted Successfuly")
+  
+  return redirect(url_for('admin.readbooks'))

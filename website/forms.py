@@ -22,3 +22,7 @@ class BookForm(FlaskForm):
   book = FileField("Book:", validators=[FileRequired(), FileAllowed(['pdf', 'txt'])])
   desc = TextAreaField("Description:")
   submit = SubmitField("Save")
+
+class BookFormUpdate(BookForm):
+  cover = FileField("Cover:", validators=[FileAllowed(['jpg', 'png'])])
+  book = FileField("Book:", validators=[FileAllowed(['pdf', 'txt'])])

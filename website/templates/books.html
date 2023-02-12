@@ -6,6 +6,7 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Book Title</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -15,9 +16,12 @@
         {{book.id}}
       </th>
       <td scope="row">
-      <a href="{{url_for('admin.changebook', id=book.id)}}">
+        <a href="{{url_for('admin.changebook', id=book.id)}}">
           {{book.title}}
         </a>
+      </td>
+      <td scope="row">
+        <a href="{{url_for('admin.deletebook', id=book.id)}}" class="btn btn-danger">Delete</a>
       </td>
     </tr>
     {% endfor %}
