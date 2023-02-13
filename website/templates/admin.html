@@ -8,19 +8,19 @@
     <h4 class="p-relative text-center pb-4 pt-3 mt-0">Adminstration</h4>
     <ul>
       <li>
-        <a class="active d-flex align-items-center fs-6 p-2" href="">
+        <a class="active d-flex align-items-center fs-6 p-2 sidebar-link" href="{{url_for('admin.dash')}}">
           <i class="bi bi-speedometer2"></i>
           <span class="ms-2">Dashboard</span>
         </a>
       </li>
       <li>
-        <a class="d-flex align-items-center fs-6 p-2" href="">
+        <a class="d-flex align-items-center fs-6 p-2 sidebar-link" href="{{url_for('home.index')}}">
           <i class="bi bi-people"></i>
           <span class="ms-2">Users</span>
         </a>
       </li>
       <li>
-        <a class="d-flex align-items-center fs-6 p-2" href="{{url_for('admin.readbooks')}}">
+        <a class="d-flex align-items-center fs-6 p-2 sidebar-link" href="{{url_for('admin.readbooks')}}">
           <i class="bi bi-book"></i>
           <span class="ms-2">Books</span>
         </a>

@@ -85,3 +85,15 @@ def deletebook(id):
   except:
     flash("Error", message='error')
   return redirect(url_for('admin.readbooks'))
+
+@admin.route('/book/<int:id>/like')
+def likebook(id):
+  book = Book.query.get_or_404(id)
+  current_user.favor.append(book)
+
+  try:
+    db.session.commit()
+    flash("Book Liked Successfuly")
+  except:
+    flash("Error", message='error')
+  return redirect(url_for('admin.readbooks'))
