@@ -2,29 +2,25 @@
 
 {% block content %}
 <div class="container">
-  <div class="row">
-
-    <div class="col-lg-4">
-      <div class="image">
+  <div class="card mt-4">
+    <div class="row g-0">
+      <div class="col-md-2">
           <img src="{{url_for('static', filename='uploads/covers/' + book['cover'])}}" alt="{{book['cover']}}">
       </div>
+      <div class="col-md-10">
+        <div class="card-body">
+          <h1>Title:
+              {{book.title}}</h1>
+          <h3>Author:
+              {{book.author}}</h3>
+          <p class="text-black-50 fs-6">
+              {{book.desc}}
+          </p>
+          <a href="{{url_for('home.download', filename=book.file_name)}}" class="btn btn-primary rounded-pill main-btn text-uppercase">free download</a>
+          <a href="{{url_for('home.likebook', id=book.id)}}" class="btn btn-danger rounded-pill main-btn text-uppercase">Add To Favorite</a>
+        </div>
+      </div>        
     </div>
-    <div class="col-lg-8 mb-4 text-center text-md-start">
-      <div class="text">
-        <br><br>
-        <h1>Title:
-            {{book.title}}</h1>
-        <h3>Author:
-            {{book.author}}</h3>
-        <p class="text-black-50 fs-6">
-            {{book.desc}}
-        </p>
-        <a href="" class="btn btn-primary rounded-pill main-btn text-uppercase">free download</a>
-        <a href="{{url_for('home.likebook', id=book.id)}}" class="btn btn-danger rounded-pill main-btn text-uppercase">Add To Favorite</a>
-      </div>
-    </div>        
   </div>
 </div>
-
-
 {% endblock %}
