@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+  .card a:hover{
+    opacity: .8;
+  }
+</style>
+<br>
 <div class="container">
-  <h1>hello World</h1>
+  <div>
+    <div class="row">
+        {% for book in books %} 
+        <div class="card m-3 " style="width: 18rem;">
+          <a href="{{url_for('home.book', id=book.id)}}">
+            <img src="{{url_for('static', filename='uploads/covers/' + book.cover)}}" class="card-img-top" alt="{{book.title}}">
+          </a>
+        </div>
+        {% endfor %}
+        <br>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
