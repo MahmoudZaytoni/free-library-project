@@ -81,7 +81,7 @@ def deletebook(id):
   try:
     db.session.delete(book_to_delete)
     db.session.commit()
-  except:
     flash("Book Deleted Successfuly")
-  
+  except:
+    flash("Error", message='error')
   return redirect(url_for('admin.readbooks'))
