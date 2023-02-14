@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
-
+{% block nav_item %}
+<form class="d-flex" role="search" method="post">
+  <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+{% endblock nav_item %}
 {% block content %}
 <style>
   .card a:hover{

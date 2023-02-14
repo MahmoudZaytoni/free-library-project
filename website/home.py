@@ -1,13 +1,18 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, send_file
+from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request
 from flask_login import current_user, login_required
 from .models import Book
 from . import db
 home = Blueprint('home', __name__)
 
-@home.route("/")
+@home.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-  books = Book.query.all()
+  if 'search' in request.form:
+    print("here")
+    search = request.form.get('search')
+    books = Book.query.filter(Book.title.like(f"%{search}%")).all()
+  else:
+    books = Book.query.all()
   return render_template("home.html", user=current_user, books=books)
 
 @home.route("/<int:id>/book")
