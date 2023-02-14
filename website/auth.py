@@ -20,7 +20,7 @@ def login():
     if user and check_password_hash(user.password, password):
       flash(f"Welcome Back {user.first_name}!\n Start having Fun with our free books",category='success')
       login_user(user, remember=True)
-      return redirect(url_for("view.index"))
+      return redirect(url_for("home.index"))
     else:
       flash("Incorrect Email or Password ", category='error')
   return render_template('login.html', form=form, user=current_user)
@@ -55,5 +55,5 @@ def signup():
       db.session.commit()
       login_user(new_user, remember=True)
       flash(f"Welcome {first_name}\nStart having fun with our Free books", category='success')
-      return redirect(url_for("view.index"))
+      return redirect(url_for("home.index"))
   return render_template('signup.html', form=form, user=current_user)
