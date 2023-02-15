@@ -38,4 +38,4 @@ class Author(db.Model):
   books = db.relationship('Book', backref="writer")
 
   def __repr__(self):
-    return f'<Author: {self.title}'
+    return f'<Author: {self.author_name}'
