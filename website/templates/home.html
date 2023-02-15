@@ -12,23 +12,35 @@
   }
 </style>
 <br>
-<div class="container p-3">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-    {% for book in books %} 
-    <div class="col">
-      <div class="card py-4 px-4">
-        <img src="{{url_for('static', filename='uploads/covers/' + book.cover)}}" class="card-img-top" alt="{{book.title}}">
-          <a href="{{url_for('home.book', id=book.id)}}">
-            <h3>{{book.title}}</h3>
-          </a>
-        <span>
-          <p>
-            {{book.author}}
-          </p>
-        </span>
+
+<div class="container-fluid px-5">
+  <div class="row">
+    <div class="col-9">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for book in books %} 
+        <div class="col">
+          <div class="card py-4 px-4">
+            <img src="{{url_for('static', filename='uploads/covers/' + book.cover)}}" class="card-img-top" alt="{{book.title}}">
+              <a href="{{url_for('home.book', id=book.id)}}">
+                <h3>{{book.title}}</h3>
+              </a>
+            <span>
+              <p>
+                {{book.author}}
+              </p>
+            </span>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </div>
-    {% endfor %}
+    <div class="sidenav col-3 p-3">
+      <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+        {% for category in categories %}
+          <a href="{{url_for('home.filter', id=category.id)}}" class="btn btn-secondary">{{category.category_name}}</a>
+        {% endfor %}
+      </div>
+    </div> 
   </div>
 </div>
 {% endblock %}

@@ -36,4 +36,4 @@ class Category(db.Model):
   books = db.relationship('Book', backref="category")
 
   def __repr__(self):
-    return f'<Category: {self.category_name}'
+    return f'<Category: {self.category_name}>'

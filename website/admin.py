@@ -57,11 +57,13 @@ def changebook(id):
     form.cover.data = upload_path + "covers/" + book.cover
     form.book.data = upload_path + "books/" + book.file_name
     form.desc.data = book.desc
+    form.category.data = book.category
     return render_template("book-form.html", current_user=current_user, form=form, operation="Change Book")
   elif form.validate_on_submit():
     book.title = form.title.data
     book.author = form.author.data
     book.desc = form.desc.data
+    book.category = form.category.data
     cover_filename = secure_filename(form.cover.data.filename)
     book_filename = secure_filename(form.book.data.filename)
 

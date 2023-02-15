@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request
 from flask_login import current_user, login_required
-from .models import Book
+from .models import Book, Category
 from . import db
 
 home = Blueprint('home', __name__)
@@ -8,13 +8,26 @@ home = Blueprint('home', __name__)
 @home.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+  categories = Category.query.all()
   if 'search' in request.form:
-    print("here")
     search = request.form.get('search')
     books = Book.query.filter(Book.title.like(f"%{search}%")).all()
   else:
     books = Book.query.all()
-  return render_template("home.html", current_user=current_user, books=books)
+  return render_template("home.html", current_user=current_user, books=books, categories=categories)
+
+@home.route("/tag/<int:id>", methods=["GET", "POST"])
+def filter(id):
+  categories = Category.query.all()
+  category = Category.query.filter_by(id=id).first_or_404()
+  if 'search' in request.form:
+    search = request.form.get('search')
+    books = Book.query.filter(Book.category==category, Book.title.like(f"%{search}%")).all()
+    print("here", books)
+    return render_template("home.html", current_user=current_user, books=books, categories=categories)
+  
+  books = category.books
+  return render_template("home.html", current_user=current_user, books=books, categories=categories)
 
 @home.route("/<int:id>/book")
 def book(id):
