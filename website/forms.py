@@ -36,3 +36,7 @@ class BookFormUpdate(BookForm):
 class CategoryForm(FlaskForm):
   category = StringField("Category Name:", validators=[DataRequired()])
   submit = SubmitField("Save")
+
+class FilterByCategory(FlaskForm):
+  category = QuerySelectField(query_factory=category_query, allow_blank=True, get_label='category_name')
+  apply = SubmitField("Apply")

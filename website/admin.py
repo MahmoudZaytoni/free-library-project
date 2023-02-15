@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from .forms import BookForm, BookFormUpdate, CategoryForm
+from .forms import BookForm, BookFormUpdate, CategoryForm, FilterByCategory
 from . import db, UPLOAD_FOLDER
 from .models import Book, User, Category
 
@@ -13,10 +13,17 @@ def dash():
   return render_template('admin.html', current_user=current_user)
 
 #################################### BOOKS ###########################################
-@admin.route('/book')
+@admin.route('/book', methods= ["GET", "POST"])
 def readbooks():
-  books = Book.query.order_by(Book.id).all()
-  return render_template('books.html', current_user=current_user, books=books)
+  form = FilterByCategory()
+  if request.method == "GET":
+    books = Book.query.order_by(Book.id).all()
+  if request.method == "POST" and form.validate_on_submit():
+    if form.category.data != None:
+      books = Book.query.filter_by(category=form.category.data)
+    else:
+      books = Book.query.order_by(Book.id).all()
+  return render_template('books.html', current_user=current_user, books=books, form=form)
 
 @admin.route('/book/add', methods=["GET", "POST"])
 def addbook():
