@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .forms import BookForm, BookFormUpdate, CategoryForm, FilterByCategory
@@ -8,13 +8,23 @@ from .models import Book, User, Category
 
 admin = Blueprint('admin', __name__)
 
+def is_accessable(id):
+  # Check if id is an admin id
+  if int(id) in set([1, 2, 3]):
+    return True
+  return abort(404)
+
 @admin.route('/')
+@login_required
 def dash():
+  is_accessable(current_user.id)
   return render_template('admin.html', current_user=current_user)
 
 #################################### BOOKS ###########################################
 @admin.route('/book', methods= ["GET", "POST"])
+@login_required
 def readbooks():
+  is_accessable(current_user.id)
   form = FilterByCategory()
   if request.method == "GET":
     books = Book.query.order_by(Book.id).all()
@@ -26,7 +36,9 @@ def readbooks():
   return render_template('books.html', current_user=current_user, books=books, form=form)
 
 @admin.route('/book/add', methods=["GET", "POST"])
+@login_required
 def addbook():
+  is_accessable(current_user.id)
   form = BookForm()
   if form.validate_on_submit():
     title = form.title.data
@@ -46,7 +58,9 @@ def addbook():
   return render_template('book-form.html', current_user=current_user, form=form, operation="Add Book")
 
 @admin.route('/book/<int:id>/change', methods=["GET", "POST"])
+@login_required
 def changebook(id):
+  is_accessable(current_user.id)
   form = BookFormUpdate()
   book = Book.query.get_or_404(id)
   upload_path = "uploads/"
@@ -86,7 +100,9 @@ def changebook(id):
   return redirect(url_for('admin.readbooks'))
 
 @admin.route('/book/<int:id>/delete')
+@login_required
 def deletebook(id):
+  is_accessable(current_user.id)
   book_to_delete = Book.query.get_or_404(id)
 
   try:
@@ -99,12 +115,16 @@ def deletebook(id):
 
 #################################### Users ###########################################
 @admin.route('/users')
+@login_required
 def readusers():
+  is_accessable(current_user.id)
   users = User.query.order_by(User.id).all()
   return render_template('users.html', current_user=current_user, users=users)
 
 @admin.route('/user/<int:id>/delete')
+@login_required
 def delete_user(id):
+  is_accessable(current_user.id)
   user_to_delete = User.query.get_or_404(id)
   if current_user == user_to_delete:
     flash("Cannot Delete Current User")
@@ -119,12 +139,16 @@ def delete_user(id):
 
 #################################### Categories ###########################################
 @admin.route('/categories')
+@login_required
 def read_categories():
+  is_accessable(current_user.id)
   categories = Category.query.order_by(Category.id).all()
   return render_template('categories.html', current_user=current_user, categories=categories)
 
 @admin.route('/category/add', methods= ["GET", "POST"])
+@login_required
 def add_category():
+  is_accessable(current_user.id)
   form = CategoryForm()
   if form.validate_on_submit():
     category_name = form.category.data 
@@ -135,7 +159,9 @@ def add_category():
   return render_template('category-form.html', current_user=current_user, form=form, operation="Add Category")
 
 @admin.route('/category/<int:id>/change', methods=["GET", "POST"])
+@login_required
 def change_category(id):
+  is_accessable(current_user.id)
   form = CategoryForm()
   category = Category.query.get_or_404(id)
   if request.method == "GET":
@@ -153,7 +179,9 @@ def change_category(id):
   return redirect(url_for('admin.read_categories'))
 
 @admin.route('/category/<int:id>/delete')
+@login_required
 def delete_category(id):
+  is_accessable(current_user.id)
   category_to_delete = Category.query.get_or_404(id)
 
   try:

@@ -34,7 +34,7 @@
         {% endfor %}
       </div>
     </div>
-    <div class="sidenav col-3 p-3">
+    <div class="sidenav col-3 px-3 pb-3">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         {% for category in categories %}
           <a href="{{url_for('home.filter', id=category.id)}}" class="btn btn-secondary">{{category.category_name}}</a>

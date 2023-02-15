@@ -17,6 +17,7 @@ def index():
   return render_template("home.html", current_user=current_user, books=books, categories=categories)
 
 @home.route("/tag/<int:id>", methods=["GET", "POST"])
+@login_required
 def filter(id):
   categories = Category.query.all()
   category = Category.query.filter_by(id=id).first_or_404()
@@ -30,11 +31,13 @@ def filter(id):
   return render_template("home.html", current_user=current_user, books=books, categories=categories)
 
 @home.route("/<int:id>/book")
+@login_required
 def book(id):
   book = Book.query.get_or_404(id)
   return render_template("book.html", current_user=current_user, book=book)
 
 @home.route('/book/<int:id>/like')
+@login_required
 def likebook(id):
   book = Book.query.get_or_404(id)
   current_user.favor.append(book)
@@ -47,6 +50,7 @@ def likebook(id):
   return redirect(url_for('home.book', id=id))
 
 @home.route('/book/<int:id>/unlike')
+@login_required
 def unlike(id):
   book = Book.query.get_or_404(id)
   current_user.favor.remove(book)
@@ -58,11 +62,13 @@ def unlike(id):
   return redirect(url_for('home.profile', id=id))
 
 @home.route('/profile')
+@login_required
 def profile():
   favorites = current_user.favor
   return render_template("profile.html", current_user=current_user, favorites=favorites)
 
 @home.route("/download/<filename>")
+@login_required
 def download(filename):
     down_path = "static/uploads/books/" + filename
     print(down_path + filename)
