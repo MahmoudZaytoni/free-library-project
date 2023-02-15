@@ -4,18 +4,18 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .forms import BookForm, BookFormUpdate
 from . import db, UPLOAD_FOLDER
-from .models import Book
+from .models import Book, User
 
 admin = Blueprint('admin', __name__)
 
 @admin.route('/')
 def dash():
-  return render_template('admin.html', user=current_user)
+  return render_template('admin.html', current_user=current_user)
 
 @admin.route('/book')
 def readbooks():
   books = Book.query.order_by(Book.id).all()
-  return render_template('books.html', user=current_user, books=books)
+  return render_template('books.html', current_user=current_user, books=books)
 
 @admin.route('/book/add', methods=["GET", "POST"])
 def addbook():
@@ -34,7 +34,7 @@ def addbook():
     cover.save(os.path.join(UPLOAD_FOLDER + '/covers', cover_filename))
     book.save(os.path.join(UPLOAD_FOLDER + '/books', book_filename))
     return redirect(url_for('admin.readbooks'))
-  return render_template('book-form.html', user=current_user, form=form, operation="Add Book")
+  return render_template('book-form.html', current_user=current_user, form=form, operation="Add Book")
 
 @admin.route('/book/<int:id>/change', methods=["GET", "POST"])
 def changebook(id):
@@ -48,8 +48,8 @@ def changebook(id):
     form.cover.data = upload_path + "covers/" + book.cover
     form.book.data = upload_path + "books/" + book.file_name
     form.desc.data = book.desc
-    return render_template("book-form.html", user=current_user, form=form, operation="Change Book")
-  else:
+    return render_template("book-form.html", current_user=current_user, form=form, operation="Change Book")
+  elif form.validate_on_submit():
     book.title = form.title.data
     book.author = form.author.data
     book.desc = form.desc.data
@@ -70,6 +70,8 @@ def changebook(id):
     except:
       flash('Error',category='error')
     
+  else:
+    return render_template("book-form.html", current_user=current_user, form=form, operation="Change Book")
   return redirect(url_for('admin.readbooks'))
 
 
@@ -85,3 +87,23 @@ def deletebook(id):
   except:
     flash("Error", message='error')
   return redirect(url_for('admin.readbooks'))
+
+@admin.route('/users')
+def readusers():
+  users = User.query.order_by(User.id).all()
+  return render_template('users.html', current_user=current_user, users=users)
+
+@admin.route('/user/<int:id>/delete')
+def delete_user(id):
+  user_to_delete = User.query.get_or_404(id)
+  if current_user == user_to_delete:
+    flash("Cannot Delete Current User")
+    return redirect(url_for('admin.readusers'))
+  try:
+    db.session.delete(user_to_delete)
+    db.session.commit()
+    flash("User Deleted Successfuly")
+  except:
+    flash("Error", message='error')
+  return redirect(url_for('admin.readusers'))
+

@@ -15,6 +15,7 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Book Title</th>
+      <th scope="col">Favorites</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -30,7 +31,12 @@
         </a>
       </td>
       <td scope="row">
-        <a href="{{url_for('admin.deletebook', id=book.id)}}" class="btn btn-danger">Delete</a>
+        {{book.favorites|length}} Users
+      </td>
+      <td scope="row">
+        <a href="{{url_for('admin.deletebook', id=book.id)}}" style="color:red;">
+          <i class="bi bi-x-lg"></i>
+        </a>
       </td>
     </tr>
     {% endfor %}

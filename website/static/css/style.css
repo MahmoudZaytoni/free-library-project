@@ -147,9 +147,14 @@ img {
 }
 
 .card span p {
-  color: #00b390;
   height: 23px;
   text-align: center;
   overflow: hidden;
   margin-bottom: 0;
+}
+.invalid-feed {
+  width: 100%;
+  margin-top: .25rem;
+  font-size: .875em;
+  color: #b02a37;
 }

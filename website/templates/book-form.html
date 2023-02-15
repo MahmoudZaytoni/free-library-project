@@ -1,5 +1,6 @@
 {% extends 'admin.html' %}
-
+{% from "_formhelpers.html" import render_field %}
+{% from "_formhelpers.html" import render_label %}
 {% block data %}
 <h1>{{operation}}</h1>
 <div class="content-main">
@@ -8,23 +9,23 @@
     <div class="module d-flex flex-column">
       <div class="row align-items-center">
         <div class="col-3">
-          {{form.title.label(class="form-label")}}
+          {{ render_label(form.title)}}
         </div>
         <div class="col-4">
-          {{form.title(class="form-control")}}
+          {{ render_field(form.title) }}
         </div>
       </div> 
       <div class="row align-items-center">
         <div class="col-3">
-          {{form.author.label(class="form-label")}}
+          {{ render_label(form.author)}}
         </div>
         <div class="col-4">
-          {{form.author(class="form-control")}}
+          {{ render_field(form.author) }}
         </div>
       </div> 
       <div class="row align-items-center">
         <div class="col-3">
-          {{form.cover.label(class="form-label")}}
+          {{ render_label(form.cover)}}
         </div>
         <div class="col-5">
           {% if form.cover.data %}
@@ -33,12 +34,12 @@
             <a href="{{url_for('static', filename=form.cover.data)}}">{{url_for('static', filename=form.cover.data)}}</a> 
           </p>
           {% endif %}
-          {{form.cover(class="form-control")}}
+          {{ render_field(form.cover) }}
         </div>
       </div> 
       <div class="row align-items-center">
         <div class="col-3">
-          {{form.book.label(class="form-label")}}
+          {{ render_label(form.book)}}
         </div>
         <div class="col-5">
           <p class="url">
@@ -47,15 +48,23 @@
             <a href="{{url_for('static', filename=form.book.data)}}">{{url_for('static', filename=form.book.data)}}</a> 
             {% endif %}
           </p>
-          {{form.book(class="form-control")}}
+          {{ render_field(form.book) }}
         </div>
       </div> 
+      <div class="row align-items-center">
+        <div class="col-3">
+          <!-- {{ render_label(form.author)}} -->
+        </div>
+        <div class="col-5">
+          <!-- {{ render_field(form.author) }} -->
+        </div>
+      </div>
       <div class="row">
         <div class="col-3">
-          {{form.desc.label(class="form-label")}}
+          {{ render_label(form.desc)}}
         </div>
         <div class="col-8">
-          {{form.desc(class="form-control")}}
+          {{ render_field(form.desc) }}
         </div>
       </div>
       <div class="row">

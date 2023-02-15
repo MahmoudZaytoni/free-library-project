@@ -25,8 +25,17 @@ class Book(db.Model):
   cover = db.Column(db.String(50), nullable=False)
   file_name = db.Column(db.String(50), nullable=False)
   desc = db.Column(db.String(1000), nullable=False)
+  author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
 
   def __repr__(self):
     return f'<Book: {self.title}>'
 
+class Author(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  author_name = db.Column(db.String(50), nullable=False)
+  desc = db.Column(db.String(1000), nullable=False)
+  image = db.Column(db.String(50), nullable=True)
+  books = db.relationship('Book', backref="writer")
 
+  def __repr__(self):
+    return f'<Author: {self.title}'

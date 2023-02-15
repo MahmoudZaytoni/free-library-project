@@ -1,0 +1,36 @@
+{% extends 'admin.html' %}
+
+{% block data %}
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">User Name</th>
+      <th scope="col">User Email</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <th scope="row">
+        {{user.id}}
+      </th>
+      <td scope="row">
+        {{user.first_name}}
+      </td>
+      <td scope="row">
+        {{user.email}}
+      </td>
+      <td scope="row">
+        {% if user.id != current_user.id %}
+        <a href="{{url_for('admin.delete_user', id=user.id)}}" style="color:red;">
+          <i class="bi bi-x-lg"></i>
+        </a>
+        {% endif%}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock data %}

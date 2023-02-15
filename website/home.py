@@ -13,12 +13,12 @@ def index():
     books = Book.query.filter(Book.title.like(f"%{search}%")).all()
   else:
     books = Book.query.all()
-  return render_template("home.html", user=current_user, books=books)
+  return render_template("home.html", current_user=current_user, books=books)
 
 @home.route("/<int:id>/book")
 def book(id):
   book = Book.query.get_or_404(id)
-  return render_template("book.html", user=current_user, book=book)
+  return render_template("book.html", current_user=current_user, book=book)
 
 
 @home.route('/book/<int:id>/like')
@@ -33,11 +33,21 @@ def likebook(id):
     flash("Error", message='error')
   return redirect(url_for('home.book', id=id))
 
+@home.route('/book/<int:id>/unlike')
+def unlike(id):
+  book = Book.query.get_or_404(id)
+  current_user.favor.remove(book)
+  try:
+    db.session.commit()
+    flash("Book UnLiked Successfuly")
+  except:
+    flash("Error", message='error')
+  return redirect(url_for('home.profile', id=id))
 
 @home.route('/profile')
 def profile():
   favorites = current_user.favor
-  return render_template("profile.html", user=current_user, favorites=favorites)
+  return render_template("profile.html", current_user=current_user, favorites=favorites)
 
 @home.route("/download/<filename>")
 def download(filename):

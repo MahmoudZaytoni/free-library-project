@@ -23,7 +23,7 @@ def login():
       return redirect(url_for("home.index"))
     else:
       flash("Incorrect Email or Password ", category='error')
-  return render_template('login.html', form=form, user=current_user)
+  return render_template('login.html', form=form, current_user=current_user)
 
 ##############################################################
 
@@ -55,5 +55,5 @@ def signup():
       db.session.commit()
       login_user(new_user, remember=True)
       flash(f"Welcome {first_name}\nStart having fun with our Free books", category='success')
-      return redirect(url_for("home.index"))
-  return render_template('signup.html', form=form, user=current_user)
+      return redirect(url_for("home.index")) 
+  return render_template('signup.html', form=form, current_user=current_user)
