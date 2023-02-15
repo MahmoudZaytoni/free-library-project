@@ -2,7 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import EmailField, StringField, TextAreaField, PasswordField, SubmitField, FileField, SelectField
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileRequired, FileAllowed
-# from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms_sqlalchemy.fields import QuerySelectField
+from .models import Category
+
+def category_query():
+  return Category.query
 
 class LoginForm(FlaskForm):
   email = EmailField("Email", validators=[DataRequired(), Length(min=4)])
@@ -19,7 +23,7 @@ class SignUpForm(FlaskForm):
 class BookForm(FlaskForm):
   title = StringField("Title:", validators=[DataRequired()])
   author = StringField("Author:", validators=[DataRequired()])
-  # author_ = SelectField("Choose an option", validate_choice=False)
+  category = QuerySelectField(query_factory=category_query, allow_blank=True, get_label='category_name')
   cover = FileField("Cover:", validators=[FileRequired(), FileAllowed(['jpg', 'png'], message="File must be jpg or png")])
   book = FileField("Book:", validators=[FileRequired(), FileAllowed(['pdf', 'txt'], message="File must be pdf")])
   desc = TextAreaField("Description:")
@@ -28,3 +32,7 @@ class BookForm(FlaskForm):
 class BookFormUpdate(BookForm):
   cover = FileField("Cover:", validators=[FileAllowed(['jpg', 'png'], message="File must be jpg or png")])
   book = FileField("Book:", validators=[FileAllowed(['pdf', 'txt'], message="File must be pdf")])
+
+class CategoryForm(FlaskForm):
+  category = StringField("Category Name:", validators=[DataRequired()])
+  submit = SubmitField("Save")

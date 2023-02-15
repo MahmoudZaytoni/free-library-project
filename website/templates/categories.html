@@ -1,0 +1,45 @@
+{% extends 'admin.html' %}
+
+{% block data %}
+<div class="d-flex flex-column">
+  <div class="row align-items-center justify-content-end">
+    <div class="col-2">
+      <a href="{{url_for('admin.add_category')}}" class="btn btn-primary mt-2">
+        <i class="bi bi-plus-lg"></i> Add Category
+      </a>
+    </div>
+  </div>
+</div>
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Category</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in categories %}
+    <tr>
+      <th scope="row">
+        {{category.id}}
+      </th>
+      <td scope="row">
+        <a href="{{url_for('admin.change_category', id=category.id)}}">
+          {{category.category_name}}
+        </a>
+      </td>
+      <td scope="row">
+        {{category.books|length}} books
+      </td>
+      <td scope="row">
+        <a href="{{url_for('admin.delete_category', id=category.id)}}" style="color:red;">
+          <i class="bi bi-x-lg"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock data %}

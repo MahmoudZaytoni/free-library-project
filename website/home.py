@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, flash, url_for, send_fil
 from flask_login import current_user, login_required
 from .models import Book
 from . import db
+
 home = Blueprint('home', __name__)
 
 @home.route("/", methods=["GET", "POST"])
@@ -19,7 +20,6 @@ def index():
 def book(id):
   book = Book.query.get_or_404(id)
   return render_template("book.html", current_user=current_user, book=book)
-
 
 @home.route('/book/<int:id>/like')
 def likebook(id):

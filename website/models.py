@@ -25,17 +25,15 @@ class Book(db.Model):
   cover = db.Column(db.String(50), nullable=False)
   file_name = db.Column(db.String(50), nullable=False)
   desc = db.Column(db.String(1000), nullable=False)
-  author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
+  category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
   def __repr__(self):
     return f'<Book: {self.title}>'
 
-class Author(db.Model):
+class Category(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  author_name = db.Column(db.String(50), nullable=False)
-  desc = db.Column(db.String(1000), nullable=False)
-  image = db.Column(db.String(50), nullable=True)
-  books = db.relationship('Book', backref="writer")
+  category_name = db.Column(db.String(50), nullable=False)
+  books = db.relationship('Book', backref="category")
 
   def __repr__(self):
-    return f'<Author: {self.author_name}'
+    return f'<Category: {self.category_name}'

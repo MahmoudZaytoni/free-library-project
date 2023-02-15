@@ -25,12 +25,17 @@
           <span class="ms-2">Books</span>
         </a>
       </li>
+      <li>
+        <a class="d-flex align-items-center fs-6 p-2 sidebar-link" href="{{url_for('admin.read_categories')}}">
+          <i class="bi bi-tags"></i>
+          <span class="ms-2">Categories</span>
+        </a>
+      </li>
     </ul>
   </div>
   
   <div class="content w-100">
-  {% block data %}
-    
+  {% block data %}  
   {% endblock data %}
   </div>
 </div>

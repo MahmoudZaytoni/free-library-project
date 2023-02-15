@@ -1,0 +1,26 @@
+{% extends 'admin.html' %}
+{% from "_formhelpers.html" import render_field %}
+{% from "_formhelpers.html" import render_label %}
+{% block data %}
+<h1>{{operation}}</h1>
+<div class="content-main">
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <div class="module d-flex flex-column">
+      <div class="row align-items-center">
+        <div class="col-3">
+          {{ render_label(form.category)}}
+        </div>
+        <div class="col-4">
+          {{ render_field(form.category) }}
+        </div>
+      </div> 
+      <div class="row">
+        <div class="col-2">
+          {{ form.submit(class="btn btn-primary mt-2") }}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock%}
