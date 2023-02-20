@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request
 from flask_login import current_user, login_required
 from .models import Book, Category
-from . import db
+from .extensions import db
 
 home = Blueprint('home', __name__)
 

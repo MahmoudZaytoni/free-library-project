@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from .extensions import db
 from .forms import LoginForm, SignUpForm
 from .models import User
 
 auth = Blueprint('auth', __name__)
-
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():

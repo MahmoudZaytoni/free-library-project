@@ -3,7 +3,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .forms import BookForm, BookFormUpdate, CategoryForm, FilterByCategory
-from . import db, UPLOAD_FOLDER
+from .extensions import db
+from .settings import UPLOAD_FOLDER
 from .models import Book, User, Category
 
 admin = Blueprint('admin', __name__)
