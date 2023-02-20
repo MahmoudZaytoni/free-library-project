@@ -4,8 +4,8 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .forms import BookForm, BookFormUpdate, CategoryForm, FilterByCategory
 from .extensions import db
-from .settings import UPLOAD_FOLDER
 from .models import Book, User, Category
+from . import UPLOAD_FOLDER
 
 admin = Blueprint('admin', __name__)
 

@@ -26,6 +26,7 @@ class Book(db.Model):
   file_name = db.Column(db.String(50), nullable=False)
   desc = db.Column(db.String(1000), nullable=False)
   category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+  author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
 
   def __repr__(self):
     return f'<Book: {self.title}>'
@@ -37,3 +38,13 @@ class Category(db.Model):
 
   def __repr__(self):
     return f'<Category: {self.category_name}>'
+
+class Author(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(50), nullable=False)
+  photo = db.Column(db.String(50))
+  desc = db.Column(db.String(1000), nullable=False)
+  books = db.relationship('Book', backref="writer")
+  
+  def __repr__(self):
+    return f'<Author: {self.name}>'
