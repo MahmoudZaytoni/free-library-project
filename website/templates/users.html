@@ -1,5 +1,5 @@
 {% extends 'admin.html' %}
-
+{% from "_helpers.html" import delete_modal %}
 {% block data %}
 <table class="table table-sm table-striped">
   <thead>
@@ -24,9 +24,7 @@
       </td>
       <td scope="row">
         {% if user.id != current_user.id %}
-        <a href="{{url_for('admin.delete_user', id=user.id)}}" style="color:red;">
-          <i class="bi bi-x-lg"></i>
-        </a>
+          {{delete_modal(user.first_name, url_for('admin.delete_user', id=user.id), user.id)}}    
         {% endif%}
       </td>
     </tr>

@@ -1,5 +1,6 @@
 {% extends 'admin.html' %}
-{% from "_formhelpers.html" import render_field %}
+{% from "_helpers.html" import render_field %}
+{% from "_helpers.html" import delete_modal %}
 {% block data %}
 <div class="d-flex flex-column">
   <form method="POST">
@@ -44,11 +45,9 @@
         {{book.favorites|length}} Users
       </td>
       <td scope="row">
-        <a href="{{url_for('admin.deletebook', id=book.id)}}" style="color:red;">
-          <i class="bi bi-x-lg"></i>
-        </a>
+        {{delete_modal(book.title, url_for('admin.deletebook', id=book.id), book.id)}}    
       </td>
-    </tr>
+    </tr>  
     {% endfor %}
   </tbody>
 </table>

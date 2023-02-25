@@ -1,0 +1,37 @@
+{% macro render_label(field) %}
+  {{field.label(class="form-label")}}
+{% endmacro%}
+
+{% macro render_field(field) %}
+{{ field(class="form-control") }}
+{% if field.errors %}
+<div class="invalid-feed">
+  {% for error in field.errors %}
+    {{ error }}
+  {% endfor %}
+</div>
+{% endif %}
+{% endmacro%}
+
+{% macro delete_modal(field, deletelink, id) %}
+<a data-bs-toggle="modal" data-bs-target="#{{id}}">
+  <i class="bi bi-x-lg" style="color: red;"></i>
+</a>        
+<div class="modal fade" id="{{id}}" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Delete [{{field}}]</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete <b>{{field}}</b>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href={{deletelink}} type="button" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div> 
+{% endmacro %}
