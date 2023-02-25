@@ -14,7 +14,7 @@
       </div>
       <div class="col-4"></div>
       <div class="col-2">
-        <a href="{{url_for('admin.addbook')}}" class="btn btn-primary">
+        <a href="{{url_for('book.addbook')}}" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> Add Book
         </a>
       </div>
@@ -37,7 +37,7 @@
         {{book.id}}
       </th>
       <td scope="row">
-        <a href="{{url_for('admin.changebook', id=book.id)}}">
+        <a href="{{url_for('book.changebook', id=book.id)}}">
           {{book.title}}
         </a>
       </td>
@@ -45,7 +45,7 @@
         {{book.favorites|length}} Users
       </td>
       <td scope="row">
-        {{delete_modal(book.title, url_for('admin.deletebook', id=book.id), book.id)}}    
+        {{delete_modal(book.title, url_for('book.deletebook', id=book.id), book.id)}}    
       </td>
     </tr>  
     {% endfor %}

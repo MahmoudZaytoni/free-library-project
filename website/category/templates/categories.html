@@ -4,7 +4,7 @@
 <div class="d-flex flex-column">
   <div class="row align-items-center justify-content-end">
     <div class="col-2">
-      <a href="{{url_for('admin.add_category')}}" class="btn btn-primary">
+      <a href="{{url_for('category.add_category')}}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i> Add Category
       </a>
     </div>
@@ -26,7 +26,7 @@
         {{category.id}}
       </th>
       <td scope="row">
-        <a href="{{url_for('admin.change_category', id=category.id)}}">
+        <a href="{{url_for('category.change_category', id=category.id)}}">
           {{category.category_name}}
         </a>
       </td>
@@ -34,7 +34,7 @@
         {{category.books|length}} books
       </td>
       <td scope="row"> 
-        {{delete_modal(category.category_name, url_for('admin.delete_category', id=category.id), category.id)}}
+        {{delete_modal(category.category_name, url_for('category.delete_category', id=category.id), category.id)}}
       </td>
     </tr>
     {% endfor %}

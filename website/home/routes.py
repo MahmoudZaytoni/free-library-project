@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request
 from flask_login import current_user, login_required
-from .models import Book, Category
-from .extensions import db
+from ..models import Book, Category
+from ..extensions import db
 
-home = Blueprint('home', __name__)
+home = Blueprint('home', __name__, template_folder='templates', static_folder='static')
 
 @home.route("/", methods=["GET", "POST"])
 @login_required

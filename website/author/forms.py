@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, FileField
 from wtforms.validators import DataRequired
 from flask_wtf.file import  FileAllowed
-from wtforms_sqlalchemy.fields import QuerySelectField
 
 class AuthorForm(FlaskForm):
   name = StringField('Author Name:', validators=[DataRequired()])

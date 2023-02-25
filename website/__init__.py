@@ -20,15 +20,19 @@ def create_app():
   
   db.init_app(app)
 
-  from .home import home
-  from .auth import auth
-  from .admin import admin
+  from .home.routes import home
+  from .auth.routes import auth
+  from .book.routes import book
+  from .category.routes import category
   from .author.routes import author
+  from .admin import admin
 
+  app.register_blueprint(admin, url_prefix='/admin')
   app.register_blueprint(home, url_prefix ='/')
   app.register_blueprint(auth, url_prefix='/')
-  app.register_blueprint(admin, url_prefix='/admin')
+  app.register_blueprint(book, url_prefix='/')
   app.register_blueprint(author, url_prefix='/')
+  app.register_blueprint(category, url_prefix='/')
 
 
   migrate.init_app(app, db)
