@@ -26,7 +26,7 @@
         {{author.id}}
       </th>
       <td scope="row">
-        <a href="{{url_for('author.change_author', id=author.id)}}">
+        <a href="{{url_for('author.change', id=author.id)}}">
           {{author.name}}
         </a>
       </td>
@@ -34,7 +34,7 @@
         {{author.books|length}} books
       </td>
       <td scope="row">
-        {{delete_modal(author.name, url_for('author.delete_author', id=author.id), author.id)}}
+        {{delete_modal(author.name, url_for('author.delete', id=author.id), author.id)}}
       </td>
     </tr>
     {% endfor %}

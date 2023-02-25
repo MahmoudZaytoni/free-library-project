@@ -1,7 +1,12 @@
-from flask import Flask
+from flask import Flask, abort
 from .extensions import db, login_manager, migrate
 
 UPLOAD_FOLDER = ""
+def is_accessable(id):
+  # Check if id is an admin id
+  if int(id) in set([1, 2, 3]):
+    return True
+  return abort(404)
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)

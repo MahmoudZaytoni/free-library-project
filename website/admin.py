@@ -5,15 +5,9 @@ from werkzeug.utils import secure_filename
 from .forms import BookForm, BookFormUpdate, CategoryForm, FilterByCategory
 from .extensions import db
 from .models import Book, User, Category
-from . import UPLOAD_FOLDER
-
+from . import UPLOAD_FOLDER, is_accessable
 admin = Blueprint('admin', __name__)
 
-def is_accessable(id):
-  # Check if id is an admin id
-  if int(id) in set([1, 2, 3]):
-    return True
-  return abort(404)
 
 @admin.route('/')
 @login_required
