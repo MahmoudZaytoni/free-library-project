@@ -11,7 +11,7 @@ class BookForm(FlaskForm):
   author = QuerySelectField(query_factory=author_query, allow_blank=False, get_label='name')
   category = QuerySelectField(query_factory=category_query, allow_blank=True, get_label='category_name')
   cover = FileField("Cover:", validators=[FileRequired(), FileAllowed(['jpg', 'png'], message="File must be jpg or png")])
-  book = FileField("Book:", validators=[FileRequired(), FileAllowed(['pdf', 'txt'], message="File must be pdf")])
+  book = FileField("Book:", validators=[FileRequired(), FileAllowed(['pdf', 'epub', 'mobi', 'azw', 'html', 'docx', 'txt'], message="Invalid Format")])
   desc = TextAreaField("Description:")
   submit = SubmitField("Save")
 
