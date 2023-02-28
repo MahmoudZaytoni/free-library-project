@@ -7,7 +7,7 @@ from ..models import Author
 from ..extensions import db
 from .. import UPLOAD_FOLDER, is_accessable
 
-author = Blueprint('author', __name__, template_folder='templates', static_folder='static')
+author = Blueprint('author', __name__, template_folder='templates')
 
 @author.route('/admin/author', methods=["GET", "POST"])
 @login_required
@@ -39,11 +39,11 @@ def add_author():
 def change(id):
   author = Author.query.get_or_404(id)
   form = AuthorForm()
-  upload_path = 'uploads/photos/'
+  
   if request.method == "GET":
     form.name.data = author.name
     if author.photo:
-      form.photo.data = upload_path + author.photo 
+      form.photo.data = os.path.join('uploads/photos', author.photo) 
     form.desc.data = author.desc
     return render_template("author-form.html", current_user=current_user, form=form, operation="Change Author")
   elif form.validate_on_submit():
@@ -78,3 +78,12 @@ def delete(id):
   except:
     flash("Error", message='error')
   return redirect(url_for('author.read_authors'))
+
+@author.route('/author/<int:id>/')
+def get(id):
+  author = Author.query.get_or_404(id)
+  name = author.name
+  desc = author.desc
+  books = author.books
+  photo = os.path.join('uploads/photos', author.photo)
+  return render_template("author.html", current_user=current_user, name=name, desc=desc, photo=photo, books=books)

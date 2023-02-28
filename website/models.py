@@ -21,7 +21,6 @@ class User(db.Model, UserMixin):
 class Book(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(50), nullable=False)
-  author = db.Column(db.String(50), nullable=False)
   cover = db.Column(db.String(50), nullable=False)
   file_name = db.Column(db.String(50), nullable=False)
   desc = db.Column(db.String(1000), nullable=False)
@@ -44,7 +43,7 @@ class Author(db.Model):
   name = db.Column(db.String(50), nullable=False)
   photo = db.Column(db.String(50))
   desc = db.Column(db.String(1000), nullable=False)
-  books = db.relationship('Book', backref="writer")
+  books = db.relationship('Book', backref="author")
   
   def __repr__(self):
     return f'<Author: {self.name}>'

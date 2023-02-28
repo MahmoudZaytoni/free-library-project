@@ -1,19 +1,17 @@
 {% extends 'base.html' %}
-{% block nav_item %}
-<form class="d-flex" role="search" method="post">
-  <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-  <button class="btn btn-outline-success" type="submit">Search</button>
-</form>
-{% endblock nav_item %}
-{% block content %}
-<style>
-  .card a:hover{
-    opacity: .8;
-  }
-</style>
-<br>
 
-<div class="container-fluid px-5">
+{% block content %}
+
+<div class="container">
+  <div class="row my-5">
+    <div class="col-sm-3">
+      <img src="{{url_for('static', filename=photo)}}" class="img-fluid rounded-circle">
+    </div>
+    <div class="col-sm-9">
+      <h1>{{name}}</h1>
+      <h5>{{desc}}</h5>
+    </div>
+  </div>
   <div class="row">
     <div class="col-9">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -24,23 +22,18 @@
               <a href="{{url_for('home.book', id=book.id)}}">
                 <h3>{{book.title}}</h3>
               </a>
-            <span>
-              <p>
-                <a href="{{url_for('author.get', id=book.author.id)}}">{{book.author.name}}</a>
-              </p>
-            </span>
           </div>
         </div>
         {% endfor %}
       </div>
     </div>
-    <div class="sidenav col-3 px-3 pb-3">
+    <!-- <div class="sidenav col-3 px-3 pb-3">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         {% for category in categories %}
-          <a href="{{url_for('home.filter', id=category.id)}}" class="btn btn-secondary">{{category.category_name}}</a>
+          <a href="{{url_for('home.filter', id=book.category.id)}}" class="btn btn-secondary">{{category.category_name}}</a>
         {% endfor %}
       </div>
-    </div> 
+    </div>  -->
   </div>
 </div>
-{% endblock %}
+{% endblock%}
