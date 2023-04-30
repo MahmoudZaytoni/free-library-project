@@ -1,25 +1,38 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container">
   <div class="card mt-4">
     <div class="row g-0">
       <div class="col-md-2">
-          <img src="{{url_for('static', filename='uploads/covers/' + book['cover'])}}" alt="{{book['cover']}}">
+        <img
+          src="{{url_for('static', filename='uploads/covers/' + book['cover'])}}"
+          alt="{{book['cover']}}"
+        />
       </div>
       <div class="col-md-10">
         <div class="card-body">
-          <h1>Title:
-              {{book.title}}</h1>
-          <h3>Author:
-              {{book.author.name}}</h3>
-          <p class="text-black-50 fs-6">
-              {{book.desc}}
-          </p>
-          <a href="{{url_for('home.download', filename=book.file_name)}}" class="btn btn-primary rounded-pill main-btn text-uppercase">free download</a>
-          <a href="{{url_for('home.likebook', id=book.id)}}" class="btn btn-danger rounded-pill main-btn text-uppercase">Add To Favorite</a>
+          <h1>Title: {{book.title}}</h1>
+          <h3>Author: {{book.author.name}}</h3>
+          <p class="text-black-50 fs-6">{{book.desc}}</p>
+          <a
+            href="{{url_for('home.download', filename=book.file_name)}}"
+            class="btn btn-primary rounded-pill main-btn text-uppercase"
+            >free download</a
+          >
+          <a
+            href="{{ url_for('home.likebook', id=book.id) }}"
+            class="like-button"
+            id="favorite--button"
+            data-book-id="{{ book.id }}"
+            data-favor="{{is_favor}}"
+          >
+            {% if is_favor %}
+              <i class="fas fa-heart"></i>
+            {% else %}
+              <i class="far fa-heart"></i>
+            {% endif %}
+          </a>
         </div>
-      </div>        
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request
+from flask import Blueprint, render_template, redirect, flash, url_for, send_file, request, jsonify
 from flask_login import current_user, login_required
 from ..models import Book, Category
 from ..extensions import db
@@ -34,32 +34,41 @@ def filter(id):
 @login_required
 def book(id):
   book = Book.query.get_or_404(id)
-  return render_template("book.html", current_user=current_user, book=book)
+  is_in_favorites = False
+  favorites = current_user.favor
+  for favorite in favorites:
+    if favorite.id == id:
+      is_in_favorites = True
+      break
+  return render_template("book.html", current_user=current_user, book=book, is_favor = is_in_favorites)
 
-@home.route('/book/<int:id>/like')
+@home.route('/book/<int:id>/like', methods=["POST"])
 @login_required
 def likebook(id):
   book = Book.query.get_or_404(id)
   current_user.favor.append(book)
-
+  
   try:
     db.session.commit()
-    flash("Book Liked Successfuly")
   except:
-    flash("Error", message='error')
-  return redirect(url_for('home.book', id=id))
+    flash("Error on database", message='error')
+    return redirect(url_for('home.book', id=id))
+  
+  return jsonify({"likes": len(book.favorites)})
 
-@home.route('/book/<int:id>/unlike')
+@home.route('/book/<int:id>/unlike', methods=["POST"])
 @login_required
 def unlike(id):
   book = Book.query.get_or_404(id)
   current_user.favor.remove(book)
+  
   try:
     db.session.commit()
-    flash("Book UnLiked Successfuly")
   except:
-    flash("Error", message='error')
-  return redirect(url_for('home.profile', id=id))
+    flash("Error on database", message='error')
+    return redirect(url_for('home.book', id=id))
+  
+  return jsonify({"likes": len(book.favorites)})
 
 @home.route('/profile')
 @login_required
